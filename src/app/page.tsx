@@ -47,13 +47,13 @@ export default function Home() {
       <div className="w-full bg-brand-maroon py-6 relative z-20">
         <div className="mx-auto max-w-6xl px-6 flex flex-wrap justify-center gap-4 md:gap-10 lg:gap-16">
           {[
-            { icon: "👗", name: "Abayas", count: "8 Styles" },
-            { icon: "🌸", name: "Dresses", count: "12 Styles" },
-            { icon: "🪄", name: "Shalwar Kameez", count: "6 Styles" },
-            { icon: "🎁", name: "Coord Sets", count: "10 Styles" },
-            { icon: "🔥", name: "Sale", count: "Up to 40% Off" },
+            { icon: "👗", name: "Abayas", count: "8 Styles", href: "/collections/abayas" },
+            { icon: "🌸", name: "Dresses", count: "12 Styles", href: "/collections/dresses" },
+            { icon: "🪄", name: "Shalwar Kameez", count: "6 Styles", href: "/collections/shalwar-kameez" },
+            { icon: "🎁", name: "Coord Sets", count: "10 Styles", href: "/collections/coord-sets" },
+            { icon: "🔥", name: "Sale", count: "Up to 40% Off", href: "/collections/sale" },
           ].map((item, i) => (
-            <Link key={i} href="#" className="flex flex-col items-center group bg-white/5 hover:bg-white/10 px-6 py-4 rounded-xl transition-colors min-w-[120px]">
+            <Link key={i} href={item.href} className="flex flex-col items-center group bg-white/5 hover:bg-white/10 px-6 py-4 rounded-xl transition-colors min-w-[120px]">
               <span className="text-2xl mb-2 grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all">{item.icon}</span>
               <span className="text-xs font-bold text-white tracking-wider">{item.name}</span>
               <span className="text-[9px] text-white/50 tracking-widest uppercase mt-1">{item.count}</span>

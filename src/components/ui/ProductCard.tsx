@@ -1,5 +1,9 @@
+'use client';
+
 import Link from "next/link";
 import { Badge } from "./Badge";
+import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 
 interface ProductCardProps {
   id: string;
@@ -22,6 +26,34 @@ export default function ProductCard({
   image,
   isNew,
 }: ProductCardProps) {
+  const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigating to the product page
+    addToCart({
+      productId: id,
+      name,
+      price,
+      image,
+      size: 'M', // default size
+      color: 'Default',
+    });
+  };
+
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    toggleWishlist({
+      id,
+      name,
+      price,
+      image,
+      originalPrice,
+    });
+  };
+
+  const isFavorited = isInWishlist(id);
+
   return (
     <div className="group flex flex-col bg-brand-surface rounded-sm overflow-hidden border border-black/5 hover:shadow-lg transition-all relative">
       {/* Badges */}
@@ -39,8 +71,11 @@ export default function ProductCard({
       </div>
 
       {/* Wishlist Button */}
-      <button className="absolute top-3 right-3 z-10 p-1.5 bg-white/70 backdrop-blur-sm hover:bg-brand-maroon hover:text-brand-gold rounded-full text-brand-text transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+      <button 
+        onClick={handleToggleWishlist}
+        className="absolute top-3 right-3 z-10 p-1.5 bg-white/70 backdrop-blur-sm hover:bg-brand-maroon hover:text-brand-gold rounded-full text-brand-text transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill={isFavorited ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
       </button>
 
       {/* Image Area */}
@@ -59,7 +94,10 @@ export default function ProductCard({
         
         {/* Quick Add Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out bg-gradient-to-t from-black/60 to-transparent flex justify-center">
-          <button className="bg-brand-gold text-brand-maroon hover:bg-brand-gold-light w-full py-2.5 rounded text-xs font-bold flex items-center justify-center gap-2 transition-colors">
+          <button 
+            onClick={handleAddToCart}
+            className="bg-brand-gold text-brand-maroon hover:bg-brand-gold-light w-full py-2.5 rounded text-xs font-bold flex items-center justify-center gap-2 transition-colors"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
             Add to Bag
           </button>
