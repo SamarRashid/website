@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-maroon: #591F35;
+  --color-brand-maroon-light: #682A41;
+  --color-brand-gold: #CFA968;
+  --color-brand-gold-light: #E5C687;
+  --color-brand-bg: #FDFBF7;
+  --color-brand-surface: #FFFFFF;
+  --color-brand-text: #3A2E32;
+  --color-brand-text-light: #8A7F84;
+  
+  --color-status-success-bg: #E8F5E9;
+  --color-status-success-text: #2E7D32;
+  --color-status-warning-bg: #FFF3E0;
+  --color-status-warning-text: #F57C00;
+  --color-status-info-bg: #E3F2FD;
+  --color-status-info-text: #1565C0;
+  --color-status-error-bg: #FFEBEE;
+  --color-status-error-text: #C62828;
+  --color-status-neutral-bg: #F5F5F5;
+  --color-status-neutral-text: #616161;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui;
+  --font-serif: var(--font-playfair), ui-serif, Georgia;
+}
+
+@layer base {
+  :root {
+    --background: 253 251 247;
+    --foreground: 58 46 50;
+  }
+
+  body {
+    @apply bg-brand-bg text-brand-text font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-brand-maroon;
+  }
+}
+
+@layer components {
+  /* Common Buttons */
+  .btn-primary {
+    @apply bg-brand-maroon text-white px-6 py-2 rounded shadow transition hover:bg-brand-maroon-light font-medium flex items-center justify-center gap-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-brand-gold text-brand-maroon px-6 py-2 rounded shadow transition hover:bg-brand-gold-light font-medium flex items-center justify-center gap-2;
+  }
+
+  .btn-outline {
+    @apply border border-brand-maroon text-brand-maroon px-6 py-2 rounded transition hover:bg-brand-maroon hover:text-white font-medium flex items-center justify-center gap-2;
+  }
+
+  /* Status Badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  .badge-success {
+    @apply bg-status-success-bg text-status-success-text;
+  }
+  .badge-warning {
+    @apply bg-status-warning-bg text-status-warning-text;
+  }
+  .badge-info {
+    @apply bg-status-info-bg text-status-info-text;
+  }
+  .badge-error {
+    @apply bg-status-error-bg text-status-error-text;
+  }
+  .badge-neutral {
+    @apply bg-status-neutral-bg text-status-neutral-text;
+  }
+}
+
+/* Custom Scrollbar for sidebars/tables */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #E5C687;
+  border-radius: 10px;
+}
