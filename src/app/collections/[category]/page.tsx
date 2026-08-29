@@ -8,12 +8,14 @@ import { useRouter } from "next/navigation";
 const PRODUCTS = [
   { id: "p1", name: "Cappadocia Pale Dress", category: "dresses", price: 1850, originalPrice: 2050, rating: 4.5, reviewsCount: 124, image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800&auto=format&fit=crop", isNew: true, sizes: ['S', 'M', 'L'] },
   { id: "p2", name: "Bosphorus Coast Dress", category: "dresses", price: 3300, rating: 5, reviewsCount: 89, image: "https://images.unsplash.com/photo-1589465885857-44edb59bbff2?q=80&w=800&auto=format&fit=crop", sizes: ['XS', 'S', 'M'] },
-  { id: "p3", name: "Asilah Evening Gown", category: "dresses", price: 2150, originalPrice: 2500, rating: 4, reviewsCount: 56, image: "https://images.unsplash.com/photo-1608228068940-27f917229b00?q=80&w=800&auto=format&fit=crop", isNew: true, sizes: ['M', 'L', 'XL'] },
-  { id: "p4", name: "Istanbul Wrap Dress", category: "dresses", price: 750, originalPrice: 950, rating: 4.5, reviewsCount: 231, image: "https://images.unsplash.com/photo-1550614000-4b95d466f916?q=80&w=800&auto=format&fit=crop", sizes: ['S', 'L', 'XXL'] },
+  { id: "p3", name: "Asilah Evening Gown", category: "dresses", price: 2150, originalPrice: 2500, rating: 4, reviewsCount: 56, image: "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?q=80&w=800&auto=format&fit=crop", isNew: true, sizes: ['M', 'L', 'XL'] },
+  { id: "p4", name: "Istanbul Wrap Dress", category: "dresses", price: 750, originalPrice: 950, rating: 4.5, reviewsCount: 231, image: "https://images.unsplash.com/photo-1583391733958-d15319a31868?q=80&w=800&auto=format&fit=crop", sizes: ['S', 'L', 'XXL'] },
   { id: "p5", name: "Florence Lace Dress", category: "dresses", price: 2100, rating: 4.8, reviewsCount: 112, image: "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?q=80&w=800&auto=format&fit=crop", sizes: ['S', 'M'] },
   { id: "p6", name: "Milano Velvet Abaya", category: "abayas", price: 4500, rating: 5.0, reviewsCount: 305, image: "https://images.unsplash.com/photo-1583391733958-d15319a31868?q=80&w=800&auto=format&fit=crop", sizes: ['M', 'L', 'XL'] },
   { id: "p7", name: "Dubai Sparkle Gown", category: "dresses", price: 5200, originalPrice: 6000, rating: 4.9, reviewsCount: 420, image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=800&auto=format&fit=crop", isNew: true, sizes: ['S', 'M', 'L', 'XL'] },
-  { id: "p8", name: "Cairo Cotton Set", category: "coord-sets", price: 1500, rating: 4.2, reviewsCount: 88, image: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=800&auto=format&fit=crop", sizes: ['XS', 'S', 'M'] }
+  { id: "p8", name: "Cairo Cotton Set", category: "coord-sets", price: 1500, rating: 4.2, reviewsCount: 88, image: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=800&auto=format&fit=crop", sizes: ['XS', 'S', 'M'] },
+  { id: "p9", name: "Lahore Signature Shalwar Kameez", category: "shalwar-kameez", price: 3200, originalPrice: 4000, rating: 5.0, reviewsCount: 156, image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800&auto=format&fit=crop", isNew: true, sizes: ['S', 'M', 'L'] },
+  { id: "p10", name: "Karachi Evening Shalwar Kameez", category: "shalwar-kameez", price: 2800, rating: 4.7, reviewsCount: 92, image: "https://images.unsplash.com/photo-1589465885857-44edb59bbff2?q=80&w=800&auto=format&fit=crop", sizes: ['M', 'L', 'XL'] }
 ];
 
 export default function CategoryPage({ params }: { params: Promise<{ category: string }> }) {

@@ -4,8 +4,8 @@ import ProductCard from "@/components/ui/ProductCard";
 const TRENDING_PRODUCTS = [
   { id: "p1", name: "Bosphorus Embroidered Abaya", price: 1290, originalPrice: 1690, rating: 5, reviewsCount: 316, image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800&auto=format&fit=crop" },
   { id: "p2", name: "Sultanahmet Evening Abaya", price: 3400, rating: 5, reviewsCount: 157, image: "https://images.unsplash.com/photo-1589465885857-44edb59bbff2?q=80&w=800&auto=format&fit=crop", isNew: true },
-  { id: "p3", name: "Hagia Sofia Velvet Abaya", price: 2780, originalPrice: 3500, rating: 4, reviewsCount: 156, image: "https://images.unsplash.com/photo-1608228068940-27f917229b00?q=80&w=800&auto=format&fit=crop" },
-  { id: "p4", name: "Iznik Floral Open Abaya", price: 1150, rating: 5, reviewsCount: 203, image: "https://images.unsplash.com/photo-1550614000-4b95d466f916?q=80&w=800&auto=format&fit=crop", isNew: true },
+  { id: "p3", name: "Hagia Sofia Velvet Abaya", price: 2780, originalPrice: 3500, rating: 4, reviewsCount: 156, image: "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?q=80&w=800&auto=format&fit=crop" },
+  { id: "p4", name: "Iznik Floral Open Abaya", price: 1150, rating: 5, reviewsCount: 203, image: "https://images.unsplash.com/photo-1583391733958-d15319a31868?q=80&w=800&auto=format&fit=crop", isNew: true },
   { id: "p5", name: "Topkapi Lace Abaya", price: 2100, originalPrice: 2600, rating: 5, reviewsCount: 189, image: "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?q=80&w=800&auto=format&fit=crop" },
   { id: "p6", name: "Anatolian Classic Abaya", price: 980, rating: 5, reviewsCount: 445, image: "https://images.unsplash.com/photo-1583391733958-d15319a31868?q=80&w=800&auto=format&fit=crop" },
   { id: "p7", name: "Tulip Garden Maxi Dress", price: 890, originalPrice: 1250, rating: 4, reviewsCount: 312, image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=800&auto=format&fit=crop" },
@@ -20,7 +20,7 @@ export default function Home() {
         <img 
           src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2000&auto=format&fit=crop" 
           alt="Ottoman Elegance" 
-          className="absolute inset-0 w-full h-full object-cover object-top"
+          className="absolute inset-0 w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
         <div className="relative z-10 text-white px-6 md:px-20 max-w-2xl">
@@ -37,7 +37,7 @@ export default function Home() {
               View Collection →
             </Link>
             <Link href="/collections/abayas" className="bg-white/10 backdrop-blur-sm border border-white/30 text-white px-8 py-3 rounded-md text-xs font-bold tracking-widest uppercase hover:bg-white/20 transition-colors w-full sm:w-auto text-center flex items-center justify-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg> View Product Page
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg> Shop Now
             </Link>
           </div>
         </div>
@@ -84,47 +84,59 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Shop By Category Image Cards */}
+      {/* Shop By Category Bento Box */}
       <section className="w-full py-20 px-6">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-serif text-brand-maroon">Shop by Category</h2>
           <p className="text-xs uppercase tracking-widest text-brand-text-light mt-3">Choose what you are looking for</p>
         </div>
         
-        <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Link href="/collections/abayas" className="relative group rounded-2xl overflow-hidden aspect-[4/5] md:aspect-auto md:h-[450px]">
-            <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800&auto=format&fit=crop" alt="Abayas" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 p-8 w-full">
-              <div className="text-[9px] text-white/80 uppercase tracking-widest font-bold mb-1">6 Styles Available</div>
-              <h3 className="text-3xl font-serif text-white mb-2">Abayas</h3>
-              <p className="text-xs text-white/80 mb-6">Elegant full-length abayas.</p>
-              <button className="bg-brand-gold text-brand-maroon px-6 py-2.5 rounded text-[10px] font-bold tracking-widest uppercase hover:bg-brand-gold-light transition-colors">
-                Shop Abayas →
+        <div className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[250px]">
+          {/* Abayas */}
+          <Link href="/collections/abayas" className="relative group rounded-2xl overflow-hidden col-span-1 md:col-span-8 row-span-1">
+            <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop" alt="Abayas" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 object-[center_30%]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>
+            <div className="absolute top-1/2 -translate-y-1/2 left-10 p-4">
+              <div className="text-[9px] text-white/80 uppercase tracking-widest font-bold mb-1">Premium Collection</div>
+              <h3 className="text-3xl font-serif text-white mb-4">Abayas</h3>
+              <button className="bg-brand-gold text-brand-maroon px-6 py-2 rounded text-[10px] font-bold tracking-widest uppercase hover:bg-brand-gold-light transition-colors">
+                Shop Now
               </button>
             </div>
           </Link>
-          <Link href="/collections/dresses" className="relative group rounded-2xl overflow-hidden aspect-[4/5] md:aspect-auto md:h-[450px]">
+          
+          {/* Dresses */}
+          <Link href="/collections/dresses" className="relative group rounded-2xl overflow-hidden col-span-1 md:col-span-4 row-span-2">
             <img src="https://images.unsplash.com/photo-1589465885857-44edb59bbff2?q=80&w=800&auto=format&fit=crop" alt="Dresses" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 p-8 w-full">
-              <div className="text-[9px] text-white/80 uppercase tracking-widest font-bold mb-1">12 Styles Available</div>
-              <h3 className="text-3xl font-serif text-white mb-2">Dresses</h3>
-              <p className="text-xs text-white/80 mb-6">Modest maxi & midi dresses.</p>
-              <button className="bg-brand-gold text-brand-maroon px-6 py-2.5 rounded text-[10px] font-bold tracking-widest uppercase hover:bg-brand-gold-light transition-colors">
-                Shop Dresses →
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+            <div className="absolute bottom-0 left-0 p-8 w-full text-center">
+              <h3 className="text-3xl font-serif text-white mb-4">Dresses</h3>
+              <button className="bg-brand-gold text-brand-maroon px-6 py-2 rounded text-[10px] font-bold tracking-widest uppercase hover:bg-brand-gold-light transition-colors">
+                Shop Now
               </button>
             </div>
           </Link>
-          <Link href="/collections/shalwar-kameez" className="relative group rounded-2xl overflow-hidden aspect-[4/5] md:aspect-auto md:h-[450px]">
+
+          {/* Shalwar Kameez */}
+          <Link href="/collections/shalwar-kameez" className="relative group rounded-2xl overflow-hidden col-span-1 md:col-span-4 row-span-1">
             <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=800&auto=format&fit=crop" alt="Shalwar Kameez" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 p-8 w-full">
-              <div className="text-[9px] text-white/80 uppercase tracking-widest font-bold mb-1">8 Styles Available</div>
-              <h3 className="text-3xl font-serif text-white mb-2">Shalwar Kameez</h3>
-              <p className="text-xs text-white/80 mb-6">Embroidered & printed shalwar kameez.</p>
-              <button className="bg-brand-gold text-brand-maroon px-6 py-2.5 rounded text-[10px] font-bold tracking-widest uppercase hover:bg-brand-gold-light transition-colors">
-                Shop Shalwar Kameez →
+            <div className="absolute bottom-6 left-6 p-2 w-full">
+              <h3 className="text-2xl font-serif text-white mb-2">Shalwar Kameez</h3>
+              <button className="text-brand-gold text-[10px] font-bold tracking-widest uppercase hover:text-brand-gold-light transition-colors">
+                Shop Now →
+              </button>
+            </div>
+          </Link>
+
+          {/* Coord Sets */}
+          <Link href="/collections/coord-sets" className="relative group rounded-2xl overflow-hidden col-span-1 md:col-span-4 row-span-1">
+            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=800&auto=format&fit=crop" alt="Coord Sets" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+            <div className="absolute bottom-6 left-6 p-2 w-full">
+              <h3 className="text-2xl font-serif text-white mb-2">Coord Sets</h3>
+              <button className="text-brand-gold text-[10px] font-bold tracking-widest uppercase hover:text-brand-gold-light transition-colors">
+                Shop Now →
               </button>
             </div>
           </Link>
