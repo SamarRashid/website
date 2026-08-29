@@ -135,11 +135,9 @@ const dictionary = {
     hero_title_3: "Ottoman Elegance",
     hero_subtitle_3: "Traditional embroidery meets modern elegance",
     hero_btn_3: "View Special Edition",
-    exclusive_collection: "Exclusive Collection",
 
     // Header specific
     nav_bag: "Bag",
-    login: "Login",
     my_account: "My Account",
     my_orders: "My Orders",
     notifications: "Notifications",
@@ -269,11 +267,9 @@ const dictionary = {
     hero_title_3: "Osmanlı Zarafeti",
     hero_subtitle_3: "Geleneksel nakış modern zarafetle buluşuyor",
     hero_btn_3: "Özel Sürümü Görüntüle",
-    exclusive_collection: "Özel Koleksiyon",
 
     // Header specific
     nav_bag: "Sepet",
-    login: "Giriş Yap",
     my_account: "Hesabım",
     my_orders: "Siparişlerim",
     notifications: "Bildirimler",

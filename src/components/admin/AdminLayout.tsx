@@ -3,12 +3,13 @@
 import AdminSidebar from "./AdminSidebar";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter, usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { isAdminLoggedIn } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!isAdminLoggedIn && !pathname.includes('/admin/login')) {
