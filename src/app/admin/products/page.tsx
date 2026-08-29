@@ -102,7 +102,7 @@ export default function AdminProductsPage() {
                   </td>
                   <td className="px-6 py-4 text-gray-500">{product.sku}</td>
                   <td className="px-6 py-4">
-                    <Badge variant={product.status === "Active" ? "success" : product.status === "Out of Stock" ? "destructive" : "default"}>
+                    <Badge variant={product.status === "Active" ? "success" : product.status === "Out of Stock" ? "default" : "default"}>
                       {product.status}
                     </Badge>
                   </td>
