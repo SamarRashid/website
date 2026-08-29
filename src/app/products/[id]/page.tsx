@@ -4,10 +4,12 @@ import Link from "next/link";
 import ProductCard from "@/components/ui/ProductCard";
 import { useState, use } from "react";
 import { useCart } from "@/context/CartContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const { addToCart } = useCart();
+  const { t } = useLanguage();
   
   // Mock data for the product
   const product = {
@@ -106,7 +108,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     <svg key={i} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill={i < product.rating ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                   ))}
                 </div>
-                <span className="text-xs font-bold text-brand-text-light ml-2">({product.reviewsCount} Reviews)</span>
+                <span className="text-xs font-bold text-brand-text-light ml-2">({product.reviewsCount} {t('reviews')})</span>
               </div>
             </div>
 
@@ -123,7 +125,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
             {/* Colors */}
             <div className="mb-8">
-              <div className="text-xs uppercase tracking-widest font-bold text-brand-text mb-3">Color: <span className="text-brand-text-light">{selectedColor.name}</span></div>
+              <div className="text-xs uppercase tracking-widest font-bold text-brand-text mb-3">{t('color')}: <span className="text-brand-text-light">{selectedColor.name}</span></div>
               <div className="flex gap-3">
                 {product.colors.map((color, i) => (
                   <button 
@@ -140,8 +142,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* Sizes */}
             <div className="mb-8">
               <div className="flex justify-between items-center mb-3">
-                <div className="text-xs uppercase tracking-widest font-bold text-brand-text">Size</div>
-                <button className="text-xs font-bold text-brand-maroon hover:underline">Size Guide</button>
+                <div className="text-xs uppercase tracking-widest font-bold text-brand-text">{t('size')}</div>
+                <button className="text-xs font-bold text-brand-maroon hover:underline">{t('size_guide')}</button>
               </div>
               <div className="flex flex-wrap gap-3">
                 {product.sizes.map((size, i) => (
@@ -168,7 +170,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 className="flex-1 bg-brand-gold text-brand-maroon h-14 rounded text-sm font-bold tracking-widest uppercase hover:bg-brand-gold-light transition-colors flex items-center justify-center gap-2 shadow-sm"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                Add to Bag
+                {t('add_to_bag')}
               </button>
               <button className="h-14 px-6 border border-brand-maroon text-brand-maroon rounded hover:bg-brand-maroon hover:text-brand-gold transition-colors flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
@@ -180,7 +182,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           <div className="space-y-4">
             <details className="group border-b border-black/5 pb-4" open>
               <summary className="flex justify-between items-center font-serif text-lg text-brand-maroon cursor-pointer list-none">
-                Product Details
+                {t('product_details_tab1')}
                 <span className="transition group-open:rotate-180">
                   <svg fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24"><polyline points="6 9 12 15 18 9"/></svg>
                 </span>
@@ -195,7 +197,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             </details>
             <details className="group border-b border-black/5 pb-4">
               <summary className="flex justify-between items-center font-serif text-lg text-brand-maroon cursor-pointer list-none">
-                Shipping & Returns
+                {t('product_details_tab2')}
                 <span className="transition group-open:rotate-180">
                   <svg fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24"><polyline points="6 9 12 15 18 9"/></svg>
                 </span>

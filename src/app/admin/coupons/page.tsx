@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/Badge";
 
 const COUPONS = [
   { id: 1, code: "WELCOME10", type: "Percentage", value: "10%", minSpend: "Rs. 0", usageLimit: "1 per user", expiry: "31 Dec 2026", status: "Active" },
-  { id: 2, code: "HAYATI15", type: "Percentage", value: "15%", minSpend: "Rs. 5000", usageLimit: "Unlimited", expiry: "15 Sep 2026", status: "Active" },
+  { id: 2, code: "HAYAT15", type: "Percentage", value: "15%", minSpend: "Rs. 5000", usageLimit: "Unlimited", expiry: "15 Sep 2026", status: "Active" },
   { id: 3, code: "FREESHIP", type: "Fixed Amount", value: "Rs. 250", minSpend: "Rs. 3000", usageLimit: "100 total", expiry: "31 Aug 2026", status: "Expired" },
   { id: 4, code: "EIDMUBARAK", type: "Percentage", value: "20%", minSpend: "Rs. 8000", usageLimit: "Unlimited", expiry: "30 Apr 2026", status: "Inactive" },
 ];

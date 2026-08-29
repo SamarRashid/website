@@ -167,7 +167,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
             <CardContent>
               <div className="space-y-3 text-sm mb-6 border-b border-black/5 pb-4">
                 <div className="flex justify-between"><span className="text-brand-text-light">Subtotal:</span> <span className="font-medium text-brand-text">Rs. 2,580</span></div>
-                <div className="flex justify-between"><span className="text-brand-text-light">Discount (HAYATI15):</span> <span className="font-medium text-red-500">-Rs. 387</span></div>
+                <div className="flex justify-between"><span className="text-brand-text-light">Discount (HAYAT15):</span> <span className="font-medium text-red-500">-Rs. 387</span></div>
                 <div className="flex justify-between"><span className="text-brand-text-light">Shipping:</span> <span className="font-medium text-green-600">Rs. 0 (Free)</span></div>
                 <div className="flex justify-between"><span className="text-brand-text-light">Tax (0%):</span> <span className="font-medium text-brand-text">Rs. 0</span></div>
               </div>

@@ -1,6 +1,10 @@
+'use client';
+
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function CheckoutPage() {
+  const { t } = useLanguage();
   const cartItems = [
     {
       id: "1",
@@ -35,8 +39,8 @@ export default function CheckoutPage() {
             
             <div className="mb-8">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-serif text-brand-maroon">Contact</h2>
-                <Link href="/login" className="text-xs text-brand-maroon underline">Log in</Link>
+                <h2 className="text-xl font-serif text-brand-maroon">{t('contact_info')}</h2>
+                <Link href="/login" className="text-xs text-brand-maroon underline">{t('login')}</Link>
               </div>
               <input type="email" placeholder="Email or mobile phone number" className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
               <label className="flex items-center gap-2 mt-3 text-xs text-brand-text">
@@ -46,7 +50,7 @@ export default function CheckoutPage() {
             </div>
 
             <div className="mb-8">
-              <h2 className="text-xl font-serif text-brand-maroon mb-4">Delivery</h2>
+              <h2 className="text-xl font-serif text-brand-maroon mb-4">{t('shipping_address')}</h2>
               <div className="space-y-4">
                 <select className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon bg-white">
                   <option>Pakistan</option>
@@ -55,16 +59,16 @@ export default function CheckoutPage() {
                   <option>United Kingdom</option>
                 </select>
                 <div className="grid grid-cols-2 gap-4">
-                  <input type="text" placeholder="First name" className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
-                  <input type="text" placeholder="Last name" className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
+                  <input type="text" placeholder={t('first_name')} className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
+                  <input type="text" placeholder={t('last_name')} className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
                 </div>
-                <input type="text" placeholder="Address" className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
+                <input type="text" placeholder={t('address')} className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
                 <input type="text" placeholder="Apartment, suite, etc. (optional)" className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
                 <div className="grid grid-cols-2 gap-4">
-                  <input type="text" placeholder="City" className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
-                  <input type="text" placeholder="Postal code" className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
+                  <input type="text" placeholder={t('city')} className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
+                  <input type="text" placeholder={t('postal_code')} className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
                 </div>
-                <input type="tel" placeholder="Phone" className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
+                <input type="tel" placeholder={t('phone')} className="w-full border border-black/20 rounded p-3 text-sm focus:outline-none focus:border-brand-maroon focus:ring-1 focus:ring-brand-maroon" />
               </div>
             </div>
 
@@ -80,7 +84,7 @@ export default function CheckoutPage() {
             </div>
 
             <div className="mb-8">
-              <h2 className="text-xl font-serif text-brand-maroon mb-1">Payment</h2>
+              <h2 className="text-xl font-serif text-brand-maroon mb-1">{t('payment_method')}</h2>
               <p className="text-xs text-brand-text-light mb-4">All transactions are secure and encrypted.</p>
               
               <div className="border border-black/20 rounded overflow-hidden divide-y divide-black/20">
@@ -116,7 +120,7 @@ export default function CheckoutPage() {
             </div>
 
             <button className="w-full bg-brand-maroon text-brand-gold py-4 rounded text-sm font-bold tracking-widest uppercase hover:bg-brand-maroon/90 transition-colors">
-              Pay Now
+              {t('place_order')}
             </button>
 
             <div className="mt-8 pt-8 border-t border-black/10 flex gap-4 text-[10px] text-brand-text-light justify-center lg:justify-start">
@@ -161,17 +165,17 @@ export default function CheckoutPage() {
 
                 <div className="space-y-3 text-sm mb-6">
                   <div className="flex justify-between">
-                    <span className="text-brand-text-light">Subtotal</span>
+                    <span className="text-brand-text-light">{t('subtotal')}</span>
                     <span className="font-medium">Rs. {subtotal.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-brand-text-light">Shipping</span>
+                    <span className="text-brand-text-light">{t('cart_shipping')}</span>
                     <span className="font-medium">Rs. {shipping.toLocaleString()}</span>
                   </div>
                 </div>
 
                 <div className="flex justify-between items-center border-t border-black/5 pt-6">
-                  <span className="font-bold text-lg">Total</span>
+                  <span className="font-bold text-lg">{t('total')}</span>
                   <div className="flex items-center gap-2">
                     <span className="text-[10px] text-brand-text-light">PKR</span>
                     <span className="text-3xl font-serif text-brand-maroon">Rs. {total.toLocaleString()}</span>
