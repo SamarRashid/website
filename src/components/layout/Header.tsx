@@ -17,25 +17,42 @@ export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   return (
     <header className="w-full sticky top-0 z-50 shadow-sm flex flex-col">
       {/* Top Banner */}
-      <div className="w-full bg-brand-gold py-1.5 text-center text-[10px] font-bold tracking-widest text-brand-maroon uppercase">
+      <div className="w-full bg-brand-gold py-1.5 text-center text-[9px] md:text-[10px] font-bold tracking-widest text-brand-maroon uppercase px-2">
         {t('free_shipping')}
       </div>
 
       {/* Main Nav */}
-      <div className="w-full bg-brand-maroon text-white px-6">
-        <div className="mx-auto flex max-w-7xl items-center justify-between py-4">
+      <div className="w-full bg-brand-maroon text-white px-3 sm:px-6 relative">
+        <div className="mx-auto flex max-w-7xl items-center justify-between py-3 md:py-4">
           
-          {/* Logo */}
-          <Link href="/" className="flex flex-col text-brand-gold">
-            <span className="text-2xl font-serif tracking-wide leading-none">E-COMMERCE</span>
-            <span className="text-[9px] font-medium tracking-[0.2em] text-brand-gold/80 mt-1 uppercase leading-none">Modest Fashion Store</span>
-          </Link>
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden text-brand-gold p-1"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                {isMobileMenuOpen ? (
+                  <path d="M18 6 6 18M6 6l12 12" />
+                ) : (
+                  <path d="M3 12h18M3 6h18M3 18h18" />
+                )}
+              </svg>
+            </button>
 
-          {/* Navigation */}
+            {/* Logo */}
+            <Link href="/" className="flex flex-col text-brand-gold">
+              <span className="text-xl md:text-2xl font-serif tracking-wide leading-none">E-COMMERCE</span>
+              <span className="text-[7px] md:text-[9px] font-medium tracking-[0.2em] text-brand-gold/80 mt-1 uppercase leading-none hidden sm:block">Modest Fashion Store</span>
+            </Link>
+          </div>
+
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6 text-[11px] font-medium tracking-wider text-white/80 uppercase">
             <Link href="/" className="hover:text-brand-gold transition-colors">{t('nav_home')}</Link>
             <Link href="/collections/abayas" className="hover:text-brand-gold transition-colors">{t('nav_abayas')}</Link>
@@ -49,20 +66,20 @@ export default function Header() {
           </nav>
 
           {/* Icons & Actions */}
-          <div className="flex items-center space-x-5 text-white/90">
+          <div className="flex items-center space-x-2 sm:space-x-4 md:space-x-5 text-white/90">
             {/* Language Selector Dropdown */}
             <div className="relative group">
               <button 
                 onClick={(e) => { e.preventDefault(); setIsLangOpen(!isLangOpen); }}
-                className="flex items-center gap-2 hover:text-brand-gold transition-colors text-[11px] font-medium tracking-wider uppercase"
+                className="flex items-center gap-1 sm:gap-2 hover:text-brand-gold transition-colors text-[10px] sm:text-[11px] font-medium tracking-wider uppercase"
               >
-                <span>LANGUAGE</span>
+                <span className="hidden lg:inline">LANG</span>
                 <img 
                   src={language === "EN" ? "https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" : "https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg"} 
                   alt={language} 
                   className="w-4 h-3 object-cover rounded-sm shadow-sm"
                 />
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-transform text-white/80 ${isLangOpen ? 'rotate-180' : ''}`}><path d="m6 9 6 6 6-6"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-transform text-white/80 hidden sm:block ${isLangOpen ? 'rotate-180' : ''}`}><path d="m6 9 6 6 6-6"/></svg>
               </button>
 
               {/* Dropdown Menu */}
@@ -74,14 +91,14 @@ export default function Header() {
                       className={`flex items-center gap-3 px-4 py-3 hover:bg-brand-bg transition-colors ${language === 'EN' ? 'bg-brand-bg font-bold' : ''}`}
                     >
                       <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="English" className="w-5 h-3.5 object-cover rounded-sm border border-black/10" />
-                      English
+                      EN
                     </button>
                     <button 
                       onClick={() => { setLanguage("TR"); setIsLangOpen(false); }}
                       className={`flex items-center gap-3 px-4 py-3 hover:bg-brand-bg transition-colors ${language === 'TR' ? 'bg-brand-bg font-bold' : ''}`}
                     >
                       <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg" alt="Turkish" className="w-5 h-3.5 object-cover rounded-sm border border-black/10" />
-                      Turkish
+                      TR
                     </button>
                   </div>
                 </div>
@@ -92,21 +109,21 @@ export default function Header() {
             <div className="relative">
               <button 
                 onClick={(e) => { e.preventDefault(); setIsSearchOpen(!isSearchOpen); }}
-                className={`transition-colors flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10 ${isSearchOpen ? 'text-brand-gold bg-white/10' : 'text-white'}`}
+                className={`transition-colors flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full hover:bg-white/10 ${isSearchOpen ? 'text-brand-gold bg-white/10' : 'text-white'}`}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="pointer-events-none"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="pointer-events-none sm:w-[18px] sm:h-[18px]"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
               </button>
 
               {/* Search Dropdown */}
               {isSearchOpen && (
-                <div className="absolute right-0 top-full mt-4 w-72 md:w-96 bg-white rounded-md shadow-xl border border-black/5 p-4 z-50 flex items-center gap-2">
+                <div className="absolute right-0 top-full mt-4 w-[250px] sm:w-72 md:w-96 bg-white rounded-md shadow-xl border border-black/5 p-3 md:p-4 z-50 flex items-center gap-2">
                   <input 
                     type="text" 
                     placeholder={t('search_placeholder')} 
                     autoFocus
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-1 bg-transparent text-sm text-brand-maroon outline-none placeholder:text-brand-text-light"
+                    className="flex-1 bg-transparent text-xs md:text-sm text-brand-maroon outline-none placeholder:text-brand-text-light min-w-0"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && searchQuery.trim()) {
                         router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
@@ -132,23 +149,23 @@ export default function Header() {
               )}
             </Link>
             {/* Bag */}
-            <Link href="/cart" className="relative bg-brand-gold text-brand-maroon flex items-center gap-2 px-4 py-1.5 rounded-full hover:bg-brand-gold-light transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-              <span className="text-[11px] font-bold">{t('nav_bag')}</span>
+            <Link href="/cart" className="relative bg-brand-gold text-brand-maroon flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 rounded-full hover:bg-brand-gold-light transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[12px] h-[12px] sm:w-[14px] sm:h-[14px]"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              <span className="text-[10px] sm:text-[11px] font-bold hidden sm:inline">{t('nav_bag')}</span>
               {cartItems > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-brand-maroon">
+                <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[9px] sm:text-[10px] font-bold w-3.5 h-3.5 sm:w-4 sm:h-4 flex items-center justify-center rounded-full border border-brand-maroon">
                   {cartItems}
                 </span>
               )}
             </Link>
             {/* Profile Dropdown */}
             <div className="relative group">
-              <Link href="/login" className="bg-white/10 text-white flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 hover:bg-white/20 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span className="text-[11px] font-medium">{t('login')}</span>
+              <Link href="/login" className="bg-white/10 text-white flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 rounded-full border border-white/20 hover:bg-white/20 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[12px] h-[12px] sm:w-[14px] sm:h-[14px]"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span className="text-[10px] sm:text-[11px] font-medium hidden sm:inline">{t('login')}</span>
               </Link>
 
-              {/* Dropdown Menu (Hover to reveal for now) */}
+              {/* Dropdown Menu */}
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
                 <div className="flex flex-col text-sm text-brand-maroon">
                   <Link href="/account" className="px-4 py-3 hover:bg-brand-bg border-b border-black/5 transition-colors">{t('my_account')}</Link>
@@ -162,6 +179,27 @@ export default function Header() {
           </div>
           
         </div>
+
+        {/* Mobile Navigation Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-brand-maroon border-t border-white/10 shadow-xl z-50 pb-4">
+            <nav className="flex flex-col text-sm font-medium tracking-wider text-white/90 uppercase px-6">
+              <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_home')}</Link>
+              <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/abayas" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_abayas')}</Link>
+              <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/dresses" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_dresses')}</Link>
+              <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/shalwar-kameez" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_shalwar')}</Link>
+              <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/coord-sets" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_coord')}</Link>
+              <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/all" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_all')}</Link>
+              <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/sale" className="py-4 text-orange-400 hover:text-orange-300 transition-colors">
+                {t('nav_sale')}
+              </Link>
+              <Link onClick={() => setIsMobileMenuOpen(false)} href="/wishlist" className="py-4 border-t border-white/20 text-brand-gold hover:text-white transition-colors flex items-center justify-between mt-2">
+                Wishlist
+                {wishlistItems > 0 && <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">{wishlistItems}</span>}
+              </Link>
+            </nav>
+          </div>
+        )}
       </div>
     </header>
   );

@@ -33,18 +33,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     ],
     sizes: ["XS", "S", "M", "L", "XL", "XXL"],
     images: [
-      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1589465885857-44edb59bbff2?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1608228068940-27f917229b00?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1550614000-4b95d466f916?q=80&w=1200&auto=format&fit=crop"
+      "/images/Image (Bosphorus Embroidered Abaya).png",
+      "/images/Image (Sultanahmet Evening Abaya).png",
+      "/images/Image (Hagia Sofia Velvet Abaya).png",
+      "/images/Image (Iznik Floral Open Abaya).png"
     ]
   };
 
   const RELATED_PRODUCTS = [
-    { id: "p2", name: "Sultanahmet Evening Abaya", price: 3400, rating: 5, reviewsCount: 157, image: "https://images.unsplash.com/photo-1589465885857-44edb59bbff2?q=80&w=800&auto=format&fit=crop", isNew: true },
-    { id: "p3", name: "Hagia Sofia Velvet Abaya", price: 2780, originalPrice: 3500, rating: 4, reviewsCount: 156, image: "https://images.unsplash.com/photo-1608228068940-27f917229b00?q=80&w=800&auto=format&fit=crop" },
-    { id: "p4", name: "Iznik Floral Open Abaya", price: 1150, rating: 5, reviewsCount: 203, image: "https://images.unsplash.com/photo-1550614000-4b95d466f916?q=80&w=800&auto=format&fit=crop", isNew: true },
-    { id: "p5", name: "Topkapi Lace Abaya", price: 2100, originalPrice: 2600, rating: 5, reviewsCount: 189, image: "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?q=80&w=800&auto=format&fit=crop" }
+    { id: "p2", name: "Sultanahmet Evening Abaya", price: 3400, rating: 5, reviewsCount: 157, image: "/images/Image (Sultanahmet Evening Abaya).png", isNew: true },
+    { id: "p3", name: "Hagia Sofia Velvet Abaya", price: 2780, originalPrice: 3500, rating: 4, reviewsCount: 156, image: "/images/Image (Hagia Sofia Velvet Abaya).png" },
+    { id: "p4", name: "Iznik Floral Open Abaya", price: 1150, rating: 5, reviewsCount: 203, image: "/images/Image (Iznik Floral Open Abaya).png", isNew: true },
+    { id: "p5", name: "Topkapi Lace Abaya", price: 2100, originalPrice: 2600, rating: 5, reviewsCount: 189, image: "/images/Image (Topkapi Lace Abaya).png" }
   ];
 
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);

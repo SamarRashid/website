@@ -2,37 +2,47 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useLanguage } from '@/context/LanguageContext';
 
 export default function HeroBanner() {
-  const { t } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
   const slides = [
     {
       id: 1,
-      title: t('hero_title_1'),
-      subtitle: t('hero_subtitle_1'),
-      buttonText: t('hero_btn_1'),
-      buttonLink: "/collections/abayas",
-      image: "/images/hero_banner.jpg",
+      tag: "SUMMER DRESSES & SETS",
+      title: "Effortless",
+      subtitle: "Grace",
+      description: "Flowing dresses & coordinated sets perfect for every occasion.",
+      buttonText: "Shop Dresses →",
+      buttonLink: "/collections/dresses",
+      secondaryButtonLink: "/products/p7", // Example link to a dress product
+      image: "/images/home page 1.png",
+      imagePosition: "object-top",
     },
     {
       id: 2,
-      title: t('hero_title_2'),
-      subtitle: t('hero_subtitle_2'),
-      buttonText: t('hero_btn_2'),
-      buttonLink: "/collections/all",
-      image: "/images/black_abaya.jpg",
+      tag: "EXCLUSIVE COLLECTION",
+      title: "Ottoman",
+      subtitle: "Elegance",
+      description: "Hand-embroidered abayas & velvet gowns with the finest fabrics.",
+      buttonText: "View Collection →",
+      buttonLink: "/collections/abayas",
+      secondaryButtonLink: "/products/p1", // Example link to an abaya product
+      image: "/images/home page 3.png",
+      imagePosition: "object-center",
     },
     {
       id: 3,
-      title: t('hero_title_3'),
-      subtitle: t('hero_subtitle_3'),
-      buttonText: t('hero_btn_3'),
-      buttonLink: "/collections/dresses",
-      image: "/images/abaya_velvet.jpg",
+      tag: "NEW SEASON ARRIVALS",
+      title: "Timeless",
+      subtitle: "Modest Fashion",
+      description: "Premium abayas, dresses & coord sets — crafted for the modern, elegant woman.",
+      buttonText: "Shop Abayas →",
+      buttonLink: "/collections/abayas",
+      secondaryButtonLink: "/products/p2", // Example link to a new arrival product
+      image: "/images/home page 2.png",
+      imagePosition: "object-center",
     }
   ];
 
@@ -49,7 +59,7 @@ export default function HeroBanner() {
 
   return (
     <section 
-      className="relative w-full h-[85vh] min-h-[600px] flex items-center bg-brand-maroon overflow-hidden group"
+      className="relative w-full h-[85vh] min-h-[600px] flex items-center bg-black overflow-hidden group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -64,10 +74,9 @@ export default function HeroBanner() {
           <img
             src={slide.image}
             alt={slide.title}
-            className="absolute inset-0 w-full h-full object-cover object-[center_15%]"
+            className={`absolute inset-0 w-full h-full object-cover ${slide.imagePosition}`}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-brand-maroon via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
           
           <div className="absolute inset-0 flex items-center">
              <div className="relative z-10 text-white px-6 md:px-20 max-w-2xl w-full">
@@ -76,21 +85,51 @@ export default function HeroBanner() {
                   index === currentSlide ? 'translate-y-0 opacity-100 delay-300' : 'translate-y-8 opacity-0'
                 }`}
               >
-                <div className="inline-block px-4 py-1.5 border border-brand-gold text-brand-gold text-[10px] font-bold tracking-widest uppercase rounded-full mb-6">
-                  {t('exclusive_collection')}
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 backdrop-blur-sm border border-white/20 text-brand-gold text-[9px] font-bold tracking-widest uppercase rounded-full mb-6">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-gold"></span>
+                  {slide.tag}
                 </div>
-                <h1 className="text-5xl md:text-7xl font-serif mb-4 leading-tight">{slide.title}</h1>
-                <p className="text-base md:text-lg font-light tracking-wide mb-10 text-white/90">
-                  {slide.subtitle}
+                
+                <h1 className="text-6xl md:text-7xl font-serif leading-tight">
+                  <span className="block text-white font-normal">{slide.title}</span>
+                  <span className="block text-brand-gold font-normal">{slide.subtitle}</span>
+                </h1>
+                
+                <p className="text-sm md:text-sm font-light tracking-wide mt-6 mb-10 text-white/80 max-w-sm leading-relaxed">
+                  {slide.description}
                 </p>
+                
                 <div className="flex flex-col sm:flex-row items-center gap-4">
                   <Link 
                     href={slide.buttonLink} 
-                    className="bg-brand-gold text-brand-maroon px-8 py-3 rounded-md text-xs font-bold tracking-widest uppercase hover:bg-[#D4AF37]/90 transition-colors w-full sm:w-auto text-center shadow-lg hover:shadow-xl hover:-translate-y-0.5 duration-300"
+                    className="bg-brand-gold text-brand-maroon px-6 py-2.5 rounded text-[11px] font-bold tracking-wider hover:bg-[#D4AF37]/90 transition-colors w-full sm:w-auto text-center"
                   >
                     {slide.buttonText}
                   </Link>
+                  <Link 
+                    href={slide.secondaryButtonLink}
+                    className="bg-transparent border border-white/40 text-white px-6 py-2.5 rounded text-[11px] font-bold tracking-wider hover:bg-white/10 transition-colors w-full sm:w-auto text-center flex items-center justify-center gap-2"
+                  >
+                    <span className="text-teal-400">👗</span> View Product Page
+                  </Link>
                 </div>
+                
+                {/* Floating Navigation Indicators (Left aligned now) */}
+                <div className="flex items-center gap-2 mt-12">
+                  {slides.map((_, dotIndex) => (
+                    <button
+                      key={dotIndex}
+                      onClick={() => setCurrentSlide(dotIndex)}
+                      aria-label={`Go to slide ${dotIndex + 1}`}
+                      className={`transition-all duration-500 rounded-full ${
+                        dotIndex === currentSlide 
+                          ? 'w-6 h-1.5 bg-brand-gold' 
+                          : 'w-1.5 h-1.5 bg-white/40 hover:bg-white/70'
+                      }`}
+                    />
+                  ))}
+                </div>
+
               </div>
             </div>
           </div>
@@ -118,21 +157,6 @@ export default function HeroBanner() {
         </svg>
       </button>
 
-      {/* Floating Navigation Indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            aria-label={`Go to slide ${index + 1}`}
-            className={`transition-all duration-500 rounded-full ${
-              index === currentSlide 
-                ? 'w-10 h-1.5 bg-brand-gold' 
-                : 'w-2 h-1.5 bg-white/40 hover:bg-white/70'
-            }`}
-          />
-        ))}
-      </div>
     </section>
   );
 }
