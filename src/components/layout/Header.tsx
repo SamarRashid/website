@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useLanguage } from "@/context/LanguageContext";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
   const pathname = usePathname();
@@ -13,11 +14,13 @@ export default function Header() {
   const { totalItems: cartItems } = useCart();
   const { totalItems: wishlistItems } = useWishlist();
   const { language, setLanguage, t } = useLanguage();
+  const { isAdminLoggedIn, logoutAdmin } = useAuth();
   
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   
   const handleTranslate = (langCode: 'EN' | 'TR') => {
     setLanguage(langCode);
@@ -70,10 +73,10 @@ export default function Header() {
           <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 items-center space-x-8 text-[11px] font-medium tracking-wider text-white/80 uppercase">
             <Link href="/" className="hover:text-brand-gold transition-colors">{t('nav_home')}</Link>
             
-            {/* Shop Dropdown */}
+            {/* Categories Dropdown */}
             <div className="relative group cursor-pointer">
               <button className="flex items-center gap-1 hover:text-brand-gold transition-colors uppercase cursor-pointer">
-                Shop
+                Categories
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:rotate-180"><path d="m6 9 6 6 6-6"/></svg>
               </button>
               
@@ -83,6 +86,19 @@ export default function Header() {
                   <Link href="/collections/dresses" className="px-4 py-3 hover:bg-brand-bg border-b border-black/5 transition-colors">{t('nav_dresses')}</Link>
                   <Link href="/collections/shalwar-kameez" className="px-4 py-3 hover:bg-brand-bg border-b border-black/5 transition-colors">{t('nav_shalwar')}</Link>
                   <Link href="/collections/coord-sets" className="px-4 py-3 hover:bg-brand-bg border-b border-black/5 transition-colors">{t('nav_coord')}</Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Shop Dropdown */}
+            <div className="relative group cursor-pointer">
+              <button className="flex items-center gap-1 hover:text-brand-gold transition-colors uppercase cursor-pointer">
+                Shop
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:rotate-180"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              
+              <div className="absolute left-0 mt-6 w-48 bg-white rounded-md shadow-lg border border-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+                <div className="flex flex-col text-sm text-brand-maroon">
                   <Link href="/collections/all" className="px-4 py-3 hover:bg-brand-bg transition-colors font-bold text-brand-gold">{t('nav_all')}</Link>
                 </div>
               </div>
@@ -187,20 +203,27 @@ export default function Header() {
               )}
             </Link>
             {/* Profile Dropdown */}
-            <div className="relative group">
-              <Link href="/login" className="bg-white/10 text-white flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 rounded-full border border-white/20 hover:bg-white/20 transition-colors">
+            <div 
+              className="relative group"
+              onMouseEnter={() => setIsProfileMenuOpen(true)}
+              onMouseLeave={() => setIsProfileMenuOpen(false)}
+            >
+              <button 
+                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                className="bg-white/10 text-white flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 rounded-full border border-white/20 hover:bg-white/20 transition-colors cursor-pointer"
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[12px] h-[12px] sm:w-[14px] sm:h-[14px]"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span className="text-[10px] sm:text-[11px] font-medium hidden sm:inline">{t('login')}</span>
-              </Link>
+                <span className="text-[10px] sm:text-[11px] font-medium hidden sm:inline">Account</span>
+              </button>
 
               {/* Dropdown Menu */}
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+              <div className={`absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-black/5 transition-all duration-200 z-50 overflow-hidden ${isProfileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
                 <div className="flex flex-col text-sm text-brand-maroon">
                   <Link href="/account" className="px-4 py-3 hover:bg-brand-bg border-b border-black/5 transition-colors">{t('my_account')}</Link>
                   <Link href="/account/orders" className="px-4 py-3 hover:bg-brand-bg border-b border-black/5 transition-colors">{t('my_orders')}</Link>
                   <Link href="/account/notifications" className="px-4 py-3 hover:bg-brand-bg border-b border-black/5 transition-colors">{t('notifications')}</Link>
                   <Link href="/admin/dashboard" className="px-4 py-3 hover:bg-brand-bg border-b border-black/5 transition-colors">{t('admin_panel')}</Link>
-                  <button className="text-left px-4 py-3 text-red-600 hover:bg-red-50 transition-colors">{t('sign_out')}</button>
+                  <button onClick={() => { logoutAdmin(); setIsProfileMenuOpen(false); router.push('/login'); }} className="text-left px-4 py-3 text-red-600 hover:bg-red-50 transition-colors">{t('sign_out')}</button>
                 </div>
               </div>
             </div>
@@ -214,14 +237,21 @@ export default function Header() {
             <nav className="flex flex-col text-sm font-medium tracking-wider text-white/90 uppercase px-6">
               <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_home')}</Link>
               
-              {/* Shop Categories Group */}
+              {/* Categories Group */}
               <div className="py-4 border-b border-white/10">
-                <div className="text-brand-gold/60 text-xs mb-4 font-bold tracking-widest">Shop Categories</div>
+                <div className="text-brand-gold/60 text-xs mb-4 font-bold tracking-widest">Categories</div>
                 <div className="flex flex-col gap-4 pl-4 border-l-2 border-white/10">
                   <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/abayas" className="hover:text-brand-gold transition-colors">{t('nav_abayas')}</Link>
                   <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/dresses" className="hover:text-brand-gold transition-colors">{t('nav_dresses')}</Link>
                   <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/shalwar-kameez" className="hover:text-brand-gold transition-colors">{t('nav_shalwar')}</Link>
                   <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/coord-sets" className="hover:text-brand-gold transition-colors">{t('nav_coord')}</Link>
+                </div>
+              </div>
+
+              {/* Shop Group */}
+              <div className="py-4 border-b border-white/10">
+                <div className="text-brand-gold/60 text-xs mb-4 font-bold tracking-widest">Shop</div>
+                <div className="flex flex-col gap-4 pl-4 border-l-2 border-white/10">
                   <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/all" className="hover:text-brand-gold transition-colors text-brand-gold">{t('nav_all')}</Link>
                 </div>
               </div>
@@ -233,6 +263,18 @@ export default function Header() {
                 Wishlist
                 {wishlistItems > 0 && <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">{wishlistItems}</span>}
               </Link>
+              
+              {/* Mobile Account Links */}
+              <div className="py-4 border-t border-white/20">
+                <div className="text-brand-gold/60 text-xs mb-4 font-bold tracking-widest">My Account</div>
+                <div className="flex flex-col gap-4 pl-4 border-l-2 border-white/10">
+                  <Link onClick={() => setIsMobileMenuOpen(false)} href="/account" className="hover:text-brand-gold transition-colors">{t('my_account')}</Link>
+                  <Link onClick={() => setIsMobileMenuOpen(false)} href="/account/orders" className="hover:text-brand-gold transition-colors">{t('my_orders')}</Link>
+                  <Link onClick={() => setIsMobileMenuOpen(false)} href="/account/notifications" className="hover:text-brand-gold transition-colors">{t('notifications')}</Link>
+                  <Link onClick={() => setIsMobileMenuOpen(false)} href="/admin/dashboard" className="hover:text-brand-gold transition-colors">{t('admin_panel')}</Link>
+                  <button onClick={() => { logoutAdmin(); setIsMobileMenuOpen(false); router.push('/login'); }} className="text-left hover:text-red-400 transition-colors text-red-400">{t('sign_out')}</button>
+                </div>
+              </div>
             </nav>
           </div>
         )}

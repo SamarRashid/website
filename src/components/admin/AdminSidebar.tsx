@@ -18,7 +18,7 @@ const navItems = [
   { name: "Reports", href: "/admin/reports", icon: "📈" }
 ];
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
   const { logoutAdmin } = useAuth();
 
@@ -36,6 +36,7 @@ export default function AdminSidebar() {
               <Link 
                 key={item.name} 
                 href={item.href}
+                onClick={onNavigate}
                 className={`flex items-center gap-4 px-4 py-3 text-[13px] font-medium rounded-lg transition-colors ${
                   isActive 
                     ? "bg-brand-gold text-brand-maroon shadow-sm" 

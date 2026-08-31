@@ -33,6 +33,31 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <AdminSidebar />
       </div>
       
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div className="md:hidden fixed inset-0 z-[100] flex">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/50 transition-opacity"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+          
+          {/* Sidebar Panel */}
+          <div className="relative flex w-64 flex-col bg-white shadow-xl">
+            {/* Close button */}
+            <button 
+              className="absolute top-4 right-4 p-2 text-brand-maroon hover:bg-brand-bg rounded-full z-[110]"
+              onClick={() => setIsSidebarOpen(false)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            <div className="h-full overflow-y-auto">
+              <AdminSidebar onNavigate={() => setIsSidebarOpen(false)} />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Navbar */}

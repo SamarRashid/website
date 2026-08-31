@@ -59,7 +59,7 @@ export default function HeroBanner() {
 
   return (
     <section 
-      className="relative w-full h-[82vh] min-h-[550px] flex items-center bg-black overflow-hidden group"
+      className="relative w-full h-[calc(100vh-110px)] min-h-[550px] flex items-center bg-black overflow-hidden group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

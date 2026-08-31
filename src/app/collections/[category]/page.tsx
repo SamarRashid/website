@@ -34,6 +34,8 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<string>("newest");
   const [searchQuery, setSearchQuery] = useState("");
+  const [minPrice, setMinPrice] = useState<string>("");
+  const [maxPrice, setMaxPrice] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -63,6 +65,16 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
       result = result.filter(p => p.sizes.includes(selectedSize));
     }
 
+    // Filter by Price
+    if (minPrice) {
+      const min = parseFloat(minPrice);
+      if (!isNaN(min)) result = result.filter(p => p.price >= min);
+    }
+    if (maxPrice) {
+      const max = parseFloat(maxPrice);
+      if (!isNaN(max)) result = result.filter(p => p.price <= max);
+    }
+
     // Filter by Search Query
     if (searchQuery.trim()) {
       result = result.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -87,33 +99,31 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
     }
 
     return result;
-  }, [resolvedParams.category, selectedSize, sortBy, searchQuery]);
+  }, [resolvedParams.category, selectedSize, sortBy, searchQuery, minPrice, maxPrice]);
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-10 w-full flex flex-col md:flex-row gap-10">
       {/* Sidebar Filters */}
       <aside className="w-full md:w-64 flex-shrink-0 space-y-8">
+
         <div>
-          <h2 className="text-xs font-bold text-brand-text uppercase tracking-wider mb-4">Category</h2>
-          <div className="space-y-3 text-sm text-brand-text-light">
-            {[
-              { id: "all", label: "All" },
-              { id: "abayas", label: "Abayas" },
-              { id: "dresses", label: "Dresses" },
-              { id: "coord-sets", label: "Coord Set" },
-              { id: "shalwar-kameez", label: "Shalwar Kameez" }
-            ].map(cat => (
-              <label key={cat.id} className={`flex items-center gap-3 px-3 py-2 cursor-pointer rounded-full transition-colors ${resolvedParams.category === cat.id ? 'font-bold text-brand-maroon bg-brand-gold/10 border border-brand-gold' : 'hover:text-brand-maroon border border-transparent'}`}>
-                <input 
-                  type="radio" 
-                  name="category" 
-                  checked={resolvedParams.category === cat.id}
-                  onChange={() => router.push(`/collections/${cat.id}`)}
-                  className="accent-brand-maroon" 
-                />
-                {cat.label}
-              </label>
-            ))}
+          <h2 className="text-xs font-bold text-brand-text uppercase tracking-wider mb-4">Price Range (₺)</h2>
+          <div className="flex items-center gap-2">
+            <input 
+              type="number" 
+              placeholder="Min" 
+              value={minPrice} 
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="w-full px-3 py-2 border border-black/10 rounded-md text-sm focus:outline-none focus:border-brand-maroon bg-transparent transition-colors"
+            />
+            <span className="text-black/50">-</span>
+            <input 
+              type="number" 
+              placeholder="Max" 
+              value={maxPrice} 
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="w-full px-3 py-2 border border-black/10 rounded-md text-sm focus:outline-none focus:border-brand-maroon bg-transparent transition-colors"
+            />
           </div>
         </div>
 
