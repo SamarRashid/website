@@ -88,21 +88,23 @@
   border-radius: 10px;
 }
 
-/* Hide Google Translate Default UI */
-.goog-te-banner-frame.skiptranslate {
+/* Hide Google Translate Hover Tooltips & Banners */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-balloon-frame,
+#goog-gt-tt,
+.goog-te-spinner-pos,
+.goog-tooltip,
+.goog-tooltip:hover {
   display: none !important;
+  visibility: hidden !important;
 }
+
 body {
   top: 0px !important;
 }
-.goog-tooltip {
-  display: none !important;
-}
-.goog-tooltip:hover {
-  display: none !important;
-}
-.goog-text-highlight {
+
+font, .goog-text-highlight {
   background-color: transparent !important;
-  border: none !important; 
   box-shadow: none !important;
+  border: none !important;
 }
