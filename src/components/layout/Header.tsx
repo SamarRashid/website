@@ -36,7 +36,7 @@ export default function Header() {
   return (
     <header className="w-full sticky top-0 z-50 shadow-sm flex flex-col">
       {/* Top Banner */}
-      <div className="w-full bg-brand-gold py-1.5 text-center text-[9px] md:text-[10px] font-bold tracking-widest text-brand-maroon uppercase px-2">
+      <div className="w-full bg-brand-gold py-1.5 text-center text-[9px] md:text-[10px] font-bold tracking-widest text-brand-maroon uppercase px-2 notranslate">
         {t('free_shipping')}
       </div>
 
@@ -119,14 +119,14 @@ export default function Header() {
                       className={`flex items-center gap-3 px-4 py-3 hover:bg-brand-bg transition-colors cursor-pointer ${language === 'EN' ? 'bg-brand-bg font-bold' : ''}`}
                     >
                       <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="English" className="w-5 h-3.5 object-cover rounded-sm border border-black/10" />
-                      EN
+                      <span className="notranslate">EN</span>
                     </button>
                     <button 
                       onClick={() => handleTranslate("TR")}
                       className={`flex items-center gap-3 px-4 py-3 hover:bg-brand-bg transition-colors cursor-pointer ${language === 'TR' ? 'bg-brand-bg font-bold' : ''}`}
                     >
                       <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg" alt="Turkish" className="w-5 h-3.5 object-cover rounded-sm border border-black/10" />
-                      TR
+                      <span className="notranslate">TR</span>
                     </button>
                   </div>
                 </div>
