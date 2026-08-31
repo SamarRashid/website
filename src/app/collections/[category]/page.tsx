@@ -1,7 +1,7 @@
 'use client';
 
 import ProductCard from "@/components/ui/ProductCard";
-import { useState, use, useMemo } from "react";
+import { useState, use, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 // Mock Data for the storefront
@@ -34,6 +34,15 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<string>("newest");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 400); // 0.4s delay for the premium feel
+    return () => clearTimeout(timer);
+  }, [resolvedParams.category]);
 
   const categoryTitle = resolvedParams.category === "all" ? "All Products" : resolvedParams.category.replace("-", " ");
 
@@ -115,7 +124,7 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
               <button 
                 key={size} 
                 onClick={() => setSelectedSize(selectedSize === size ? null : size)}
-                className={`w-10 h-10 rounded-full border flex items-center justify-center text-xs font-medium transition-colors ${selectedSize === size ? 'border-brand-maroon text-brand-maroon bg-brand-gold/10' : 'border-black/10 hover:border-brand-maroon hover:text-brand-maroon'}`}
+                className={`w-10 h-10 rounded-full border flex items-center justify-center text-xs font-medium transition-colors cursor-pointer ${selectedSize === size ? 'border-brand-maroon text-brand-maroon bg-brand-gold/10' : 'border-black/10 hover:border-brand-maroon hover:text-brand-maroon'}`}
               >
                 {size}
               </button>
@@ -169,7 +178,14 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
           </div>
         </div>
 
-        {filteredProducts.length > 0 ? (
+        {isLoading ? (
+          <div className="w-full py-32 flex flex-col items-center justify-center">
+            <div className="w-20 h-20 rounded-full border border-brand-gold/30 flex items-center justify-center animate-pulse shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+              <span className="text-5xl font-serif text-brand-gold leading-none relative top-1">H</span>
+            </div>
+            <span className="text-[10px] uppercase tracking-widest text-brand-maroon/60 mt-6 font-bold animate-pulse">Loading Collection</span>
+          </div>
+        ) : filteredProducts.length > 0 ? (
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
             {filteredProducts.map(product => (
               <ProductCard key={product.id} {...product} />

@@ -19,6 +19,18 @@ export default function Header() {
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
+  const handleTranslate = (langCode: string) => {
+    setLanguage(langCode);
+    setIsLangOpen(false);
+    
+    // Trigger Google Translate script change
+    const select = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
+    if (select) {
+      select.value = langCode.toLowerCase();
+      select.dispatchEvent(new Event('change'));
+    }
+  };
+  
   return (
     <header className="w-full sticky top-0 z-50 shadow-sm flex flex-col">
       {/* Top Banner */}
@@ -28,7 +40,7 @@ export default function Header() {
 
       {/* Main Nav */}
       <div className="w-full bg-brand-maroon text-white px-3 sm:px-6 relative">
-        <div className="mx-auto flex max-w-7xl items-center justify-between py-3 md:py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between py-3 md:py-4 relative">
           
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Mobile Menu Button */}
@@ -53,13 +65,27 @@ export default function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6 text-[11px] font-medium tracking-wider text-white/80 uppercase">
+          <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 items-center space-x-8 text-[11px] font-medium tracking-wider text-white/80 uppercase">
             <Link href="/" className="hover:text-brand-gold transition-colors">{t('nav_home')}</Link>
-            <Link href="/collections/abayas" className="hover:text-brand-gold transition-colors">{t('nav_abayas')}</Link>
-            <Link href="/collections/dresses" className="hover:text-brand-gold transition-colors">{t('nav_dresses')}</Link>
-            <Link href="/collections/shalwar-kameez" className="hover:text-brand-gold transition-colors">{t('nav_shalwar')}</Link>
-            <Link href="/collections/coord-sets" className="hover:text-brand-gold transition-colors">{t('nav_coord')}</Link>
-            <Link href="/collections/all" className="hover:text-brand-gold transition-colors">{t('nav_all')}</Link>
+            
+            {/* Shop Dropdown */}
+            <div className="relative group cursor-pointer">
+              <button className="flex items-center gap-1 hover:text-brand-gold transition-colors uppercase cursor-pointer">
+                Shop
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:rotate-180"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              
+              <div className="absolute left-0 mt-6 w-48 bg-white rounded-md shadow-lg border border-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+                <div className="flex flex-col text-sm text-brand-maroon">
+                  <Link href="/collections/abayas" className="px-4 py-3 hover:bg-brand-bg border-b border-black/5 transition-colors">{t('nav_abayas')}</Link>
+                  <Link href="/collections/dresses" className="px-4 py-3 hover:bg-brand-bg border-b border-black/5 transition-colors">{t('nav_dresses')}</Link>
+                  <Link href="/collections/shalwar-kameez" className="px-4 py-3 hover:bg-brand-bg border-b border-black/5 transition-colors">{t('nav_shalwar')}</Link>
+                  <Link href="/collections/coord-sets" className="px-4 py-3 hover:bg-brand-bg border-b border-black/5 transition-colors">{t('nav_coord')}</Link>
+                  <Link href="/collections/all" className="px-4 py-3 hover:bg-brand-bg transition-colors font-bold text-brand-gold">{t('nav_all')}</Link>
+                </div>
+              </div>
+            </div>
+
             <Link href="/collections/sale" className="text-orange-400 hover:text-orange-300 transition-colors flex items-center">
               {t('nav_sale')}
             </Link>
@@ -68,12 +94,12 @@ export default function Header() {
           {/* Icons & Actions */}
           <div className="flex items-center space-x-2 sm:space-x-4 md:space-x-5 text-white/90">
             {/* Language Selector Dropdown */}
-            <div className="relative group">
+            <div className="relative group cursor-pointer">
               <button 
                 onClick={(e) => { e.preventDefault(); setIsLangOpen(!isLangOpen); }}
-                className="flex items-center gap-1 sm:gap-2 hover:text-brand-gold transition-colors text-[10px] sm:text-[11px] font-medium tracking-wider uppercase"
+                className="flex items-center gap-1 sm:gap-2 hover:text-brand-gold transition-colors text-[10px] sm:text-[11px] font-medium tracking-wider uppercase cursor-pointer"
               >
-                <span className="hidden lg:inline">LANG</span>
+                <span className="hidden lg:inline notranslate">LANG</span>
                 <img 
                   src={language === "EN" ? "https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" : "https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg"} 
                   alt={language} 
@@ -87,15 +113,15 @@ export default function Header() {
                 <div className="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg border border-black/5 z-50 overflow-hidden">
                   <div className="flex flex-col text-sm text-brand-maroon">
                     <button 
-                      onClick={() => { setLanguage("EN"); setIsLangOpen(false); }}
-                      className={`flex items-center gap-3 px-4 py-3 hover:bg-brand-bg transition-colors ${language === 'EN' ? 'bg-brand-bg font-bold' : ''}`}
+                      onClick={() => handleTranslate("EN")}
+                      className={`flex items-center gap-3 px-4 py-3 hover:bg-brand-bg transition-colors cursor-pointer ${language === 'EN' ? 'bg-brand-bg font-bold' : ''}`}
                     >
                       <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" alt="English" className="w-5 h-3.5 object-cover rounded-sm border border-black/10" />
                       EN
                     </button>
                     <button 
-                      onClick={() => { setLanguage("TR"); setIsLangOpen(false); }}
-                      className={`flex items-center gap-3 px-4 py-3 hover:bg-brand-bg transition-colors ${language === 'TR' ? 'bg-brand-bg font-bold' : ''}`}
+                      onClick={() => handleTranslate("TR")}
+                      className={`flex items-center gap-3 px-4 py-3 hover:bg-brand-bg transition-colors cursor-pointer ${language === 'TR' ? 'bg-brand-bg font-bold' : ''}`}
                     >
                       <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg" alt="Turkish" className="w-5 h-3.5 object-cover rounded-sm border border-black/10" />
                       TR
@@ -106,10 +132,10 @@ export default function Header() {
             </div>
 
             {/* Search */}
-            <div className="relative">
+            <div className="relative cursor-pointer">
               <button 
                 onClick={(e) => { e.preventDefault(); setIsSearchOpen(!isSearchOpen); }}
-                className={`transition-colors flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full hover:bg-white/10 ${isSearchOpen ? 'text-brand-gold bg-white/10' : 'text-white'}`}
+                className={`transition-colors flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full hover:bg-white/10 cursor-pointer ${isSearchOpen ? 'text-brand-gold bg-white/10' : 'text-white'}`}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="pointer-events-none sm:w-[18px] sm:h-[18px]"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
               </button>
@@ -182,14 +208,22 @@ export default function Header() {
 
         {/* Mobile Navigation Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-brand-maroon border-t border-white/10 shadow-xl z-50 pb-4">
+          <div className="md:hidden absolute top-full left-0 w-full bg-brand-maroon border-t border-white/10 shadow-xl z-50 pb-4 max-h-[75vh] overflow-y-auto">
             <nav className="flex flex-col text-sm font-medium tracking-wider text-white/90 uppercase px-6">
               <Link onClick={() => setIsMobileMenuOpen(false)} href="/" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_home')}</Link>
-              <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/abayas" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_abayas')}</Link>
-              <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/dresses" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_dresses')}</Link>
-              <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/shalwar-kameez" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_shalwar')}</Link>
-              <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/coord-sets" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_coord')}</Link>
-              <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/all" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors">{t('nav_all')}</Link>
+              
+              {/* Shop Categories Group */}
+              <div className="py-4 border-b border-white/10">
+                <div className="text-brand-gold/60 text-xs mb-4 font-bold tracking-widest">Shop Categories</div>
+                <div className="flex flex-col gap-4 pl-4 border-l-2 border-white/10">
+                  <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/abayas" className="hover:text-brand-gold transition-colors">{t('nav_abayas')}</Link>
+                  <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/dresses" className="hover:text-brand-gold transition-colors">{t('nav_dresses')}</Link>
+                  <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/shalwar-kameez" className="hover:text-brand-gold transition-colors">{t('nav_shalwar')}</Link>
+                  <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/coord-sets" className="hover:text-brand-gold transition-colors">{t('nav_coord')}</Link>
+                  <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/all" className="hover:text-brand-gold transition-colors text-brand-gold">{t('nav_all')}</Link>
+                </div>
+              </div>
+
               <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/sale" className="py-4 text-orange-400 hover:text-orange-300 transition-colors">
                 {t('nav_sale')}
               </Link>

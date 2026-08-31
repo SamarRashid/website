@@ -25,6 +25,8 @@ export const metadata: Metadata = {
   description: "Discover premium abayas, elegant dresses, and modest fashion essentials.",
 };
 
+import Script from "next/script";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -40,6 +42,28 @@ export default function RootLayout({
                 <Header />
                 <main className="flex-grow flex flex-col">{children}</main>
                 <Footer />
+                
+                {/* Google Translate Integration */}
+                <div id="google_translate_element" style={{ display: 'none' }}></div>
+                <Script 
+                  id="google-translate-init" 
+                  strategy="afterInteractive"
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({
+                          pageLanguage: 'en',
+                          includedLanguages: 'en,tr',
+                          autoDisplay: false
+                        }, 'google_translate_element');
+                      }
+                    `,
+                  }}
+                />
+                <Script 
+                  src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" 
+                  strategy="afterInteractive" 
+                />
               </CartProvider>
             </WishlistProvider>
           </LanguageProvider>

@@ -148,9 +148,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <div className="flex flex-wrap gap-3">
                 {product.sizes.map((size, i) => (
                   <button 
-                    key={i} 
+                    key={size} 
                     onClick={() => setSelectedSize(size)}
-                    className={`w-12 h-12 rounded border ${selectedSize === size ? 'border-brand-maroon text-brand-maroon bg-brand-maroon/5' : 'border-black/10 text-brand-text hover:border-brand-maroon'} text-sm font-medium transition-colors flex items-center justify-center`}
+                    className={`w-12 h-12 rounded border ${selectedSize === size ? 'border-brand-maroon text-brand-maroon bg-brand-maroon/5' : 'border-black/10 text-brand-text hover:border-brand-maroon'} text-sm font-medium transition-colors flex items-center justify-center cursor-pointer`}
                   >
                     {size}
                   </button>
