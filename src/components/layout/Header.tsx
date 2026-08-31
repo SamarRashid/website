@@ -19,7 +19,7 @@ export default function Header() {
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  const handleTranslate = (langCode: string) => {
+  const handleTranslate = (langCode: 'EN' | 'TR') => {
     setLanguage(langCode);
     setIsLangOpen(false);
     
