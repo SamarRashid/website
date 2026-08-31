@@ -23,12 +23,14 @@ export default function Header() {
     setLanguage(langCode);
     setIsLangOpen(false);
     
-    // Trigger Google Translate script change
-    const select = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
-    if (select) {
-      select.value = langCode.toLowerCase();
-      select.dispatchEvent(new Event('change'));
-    }
+    // Delay to let React finish rendering its LanguageContext changes first
+    setTimeout(() => {
+      const select = document.querySelector('.goog-te-combo') as HTMLSelectElement | null;
+      if (select) {
+        select.value = langCode.toLowerCase();
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }, 200);
   };
   
   return (
