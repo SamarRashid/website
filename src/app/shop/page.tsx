@@ -5,6 +5,7 @@ import { useState, useMemo, useEffect } from "react";
 
 import { PRODUCTS } from "@/data/mockProducts";
 import FilterSidebar, { Filters } from "@/components/shop/FilterSidebar";
+import SortDropdown from "@/components/ui/SortDropdown";
 
 export default function ShopPage() {
   const [sortBy, setSortBy] = useState<string>("newest");
@@ -138,21 +139,9 @@ export default function ShopPage() {
               />
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             </div>
-            <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
+            <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 relative">
               <span className="text-xs font-bold text-brand-text uppercase tracking-wider hidden xl:block">Sort By:</span>
-              <select 
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="w-full sm:w-auto border border-black/10 rounded-full px-4 py-2 text-sm bg-white text-brand-text focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-colors shadow-sm cursor-pointer appearance-none pr-10"
-                style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpolyline points=\'6 9 12 15 18 9\'%3E%3C/polyline%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
-              >
-                <option value="recommended">Recommended</option>
-                <option value="top-sellers">Top Sellers</option>
-                <option value="most-popular">Most Popular</option>
-                <option value="new-arrival">New Arrival</option>
-                <option value="price-low">Price Low To High</option>
-                <option value="price-high">Price High to Low</option>
-              </select>
+              <SortDropdown value={sortBy} onChange={setSortBy} />
             </div>
           </div>
         </div>
