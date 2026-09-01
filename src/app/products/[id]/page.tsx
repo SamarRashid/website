@@ -6,51 +6,65 @@ import { useState, use } from "react";
 import { useCart } from "@/context/CartContext";
 import { useLanguage } from "@/context/LanguageContext";
 
+import { PRODUCTS } from "@/data/mockProducts";
+
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const { addToCart } = useCart();
   const { t } = useLanguage();
   
-  // Mock data for the product
+  // Find the product from the mock database, or fallback if not found
+  const foundProduct = PRODUCTS.find(p => p.id === resolvedParams.id);
+  
   const product = {
     id: resolvedParams.id,
-    name: "Bosphorus Embroidered Abaya",
-    price: 1290,
-    originalPrice: 1690,
-    rating: 5,
-    reviewsCount: 316,
-    description: "Hand-embroidered Ottoman floral motifs on premium chiffon. This elegant full-length abaya features delicate lace overlay on a smooth satin base — timeless elegance perfect for any formal occasion.",
+    name: foundProduct ? foundProduct.name : "Exclusive Collection Item",
+    price: foundProduct ? foundProduct.price : 1290,
+    originalPrice: foundProduct?.originalPrice || undefined,
+    rating: foundProduct ? foundProduct.rating : 5,
+    reviewsCount: foundProduct ? foundProduct.reviewsCount : 316,
+    description: "Hand-embroidered details on premium fabric. This elegant piece features timeless design — perfect for any formal or semi-formal occasion.",
     features: [
-      "Premium chiffon fabric",
-      "Hand-embroidered floral motifs",
-      "Includes matching hijab",
-      "Front open design with hidden snap buttons"
+      "Premium imported fabric",
+      "Hand-embroidered details",
+      "Elegant modest fit",
+      "Timeless design"
     ],
     colors: [
       { name: "Midnight Navy", hex: "#1A237E" },
       { name: "Emerald Green", hex: "#1B5E20" },
       { name: "Maroon", hex: "#591F35" }
     ],
-    sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+    sizes: foundProduct?.sizes || ["XS", "S", "M", "L", "XL", "XXL"],
     images: [
-      "/images/Image (Bosphorus Embroidered Abaya).png",
+      foundProduct?.image || "/images/Image (Bosphorus Embroidered Abaya).png",
       "/images/Image (Sultanahmet Evening Abaya).png",
       "/images/Image (Hagia Sofia Velvet Abaya).png",
       "/images/Image (Iznik Floral Open Abaya).png"
     ]
   };
 
-  const RELATED_PRODUCTS = [
-    { id: "p2", name: "Sultanahmet Evening Abaya", price: 3400, rating: 5, reviewsCount: 157, image: "/images/Image (Sultanahmet Evening Abaya).png", isNew: true },
-    { id: "p3", name: "Hagia Sofia Velvet Abaya", price: 2780, originalPrice: 3500, rating: 4, reviewsCount: 156, image: "/images/Image (Hagia Sofia Velvet Abaya).png" },
-    { id: "p4", name: "Iznik Floral Open Abaya", price: 1150, rating: 5, reviewsCount: 203, image: "/images/Image (Iznik Floral Open Abaya).png", isNew: true },
-    { id: "p5", name: "Topkapi Lace Abaya", price: 2100, originalPrice: 2600, rating: 5, reviewsCount: 189, image: "/images/Image (Topkapi Lace Abaya).png" }
-  ];
+  // Filter out the current product from related products
+  const RELATED_PRODUCTS = PRODUCTS
+    .filter(p => p.id !== resolvedParams.id)
+    .slice(0, 4)
+    .map(p => ({ ...p, image: p.image }));
 
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]); // Default M
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
+
+  // Zoom States
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setZoomPos({ x, y });
+  };
 
   const handleAddToCart = () => {
     addToCart({
@@ -91,8 +105,22 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </button>
             ))}
           </div>
-          <div className="w-full flex-grow aspect-[3/4] md:aspect-auto md:h-[800px] rounded-lg overflow-hidden order-1 md:order-2 bg-black/5">
-            <img src={product.images[activeImage]} alt={product.name} className="w-full h-full object-cover transition-opacity duration-300" />
+          <div 
+            className={`w-full flex-grow aspect-[3/4] md:aspect-auto md:h-[800px] rounded-lg overflow-hidden order-1 md:order-2 bg-black/5 relative ${isZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'}`}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsZoomed(true)}
+            onMouseLeave={() => setIsZoomed(false)}
+            onClick={(e) => {
+              if (!isZoomed) handleMouseMove(e);
+              setIsZoomed(!isZoomed);
+            }}
+          >
+            <img 
+              src={product.images[activeImage]} 
+              alt={product.name} 
+              className={`w-full h-full object-cover transition-transform duration-200 ease-out ${isZoomed ? 'scale-[2]' : 'scale-100'}`} 
+              style={{ transformOrigin: `${zoomPos.x}% ${zoomPos.y}%` }}
+            />
           </div>
         </div>
 

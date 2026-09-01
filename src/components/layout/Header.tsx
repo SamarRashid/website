@@ -90,19 +90,9 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Shop Dropdown */}
-            <div className="relative group cursor-pointer">
-              <button className="flex items-center gap-1 hover:text-brand-gold transition-colors uppercase cursor-pointer">
-                Shop
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:rotate-180"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
-              
-              <div className="absolute left-0 mt-6 w-48 bg-white rounded-md shadow-lg border border-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
-                <div className="flex flex-col text-sm text-brand-maroon">
-                  <Link href="/collections/all" className="px-4 py-3 hover:bg-brand-bg transition-colors font-bold text-brand-gold">{t('nav_all')}</Link>
-                </div>
-              </div>
-            </div>
+            <Link href="/collections/all" className="hover:text-brand-gold transition-colors uppercase">
+              Shop
+            </Link>
 
             <Link href="/collections/sale" className="text-orange-400 hover:text-orange-300 transition-colors flex items-center">
               {t('nav_sale')}
@@ -248,13 +238,9 @@ export default function Header() {
                 </div>
               </div>
 
-              {/* Shop Group */}
-              <div className="py-4 border-b border-white/10">
-                <div className="text-brand-gold/60 text-xs mb-4 font-bold tracking-widest">Shop</div>
-                <div className="flex flex-col gap-4 pl-4 border-l-2 border-white/10">
-                  <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/all" className="hover:text-brand-gold transition-colors text-brand-gold">{t('nav_all')}</Link>
-                </div>
-              </div>
+              <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/all" className="py-4 border-b border-white/10 hover:text-brand-gold transition-colors text-left uppercase">
+                Shop
+              </Link>
 
               <Link onClick={() => setIsMobileMenuOpen(false)} href="/collections/sale" className="py-4 text-orange-400 hover:text-orange-300 transition-colors">
                 {t('nav_sale')}
