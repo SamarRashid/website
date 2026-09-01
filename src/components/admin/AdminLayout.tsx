@@ -18,7 +18,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [isAdminLoggedIn, pathname, router]);
 
   if (!isAdminLoggedIn && !pathname.includes('/admin/login')) {
-    return null; // Prevent flicker while redirecting
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-brand-bg text-brand-maroon">
+        <div className="w-10 h-10 border-4 border-brand-maroon/20 border-t-brand-maroon rounded-full animate-spin"></div>
+      </div>
+    ); 
   }
 
   // If we are on the login page, don't show sidebar and topbar

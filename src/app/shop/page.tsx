@@ -1,88 +1,177 @@
-import ProductCard from "@/components/ui/ProductCard";
+'use client';
 
-// Extended Dummy data for shop
-const DUMMY_PRODUCTS = [
-  { id: "1", name: "Bosphorus Embroidered Abaya", price: 1290, rating: 4.5, reviewsCount: 12, image: "/images/abaya_embroidered.jpg", isNew: true },
-  { id: "2", name: "Hagia Sofia Velvet Abaya", price: 1590, originalPrice: 1990, rating: 5, reviewsCount: 8, image: "/images/abaya_velvet.jpg" },
-  { id: "3", name: "Ankara Floral Coord Set", price: 2100, rating: 4, reviewsCount: 24, image: "/images/coord_set_floral.jpg" },
-  { id: "4", name: "Rose Pink Embroidered Shalwar Kameez", price: 2850, rating: 4.8, reviewsCount: 15, image: "/images/shalwar_kameez_pink.jpg", isNew: true },
-  { id: "5", name: "Istanbul Evening Dress", price: 3200, rating: 4.2, reviewsCount: 6, image: "/images/abaya_velvet.jpg" },
-  { id: "6", name: "Classic Black Basic Abaya", price: 950, rating: 4.9, reviewsCount: 52, image: "/images/abaya_embroidered.jpg" },
-  { id: "7", name: "Cotton Everyday Coord Set", price: 1850, rating: 4.6, reviewsCount: 18, image: "/images/coord_set_floral.jpg" },
-  { id: "8", name: "Silk Chiffon Party Dress", price: 4500, originalPrice: 5000, rating: 5, reviewsCount: 3, image: "/images/shalwar_kameez_pink.jpg" },
-];
+import ProductCard from "@/components/ui/ProductCard";
+import { useState, useMemo, useEffect } from "react";
+
+import { PRODUCTS } from "@/data/mockProducts";
+import FilterSidebar, { Filters } from "@/components/shop/FilterSidebar";
 
 export default function ShopPage() {
-  return (
-    <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-8">
-      {/* Sidebar Filters */}
-      <aside className="w-full md:w-72 flex-shrink-0">
-        <h2 className="text-2xl font-semibold text-[var(--color-primary)] logo-tracking mb-6">Filters</h2>
-        
-        {/* Categories */}
-        <div className="mb-8">
-          <h3 className="font-semibold mb-3 text-sm uppercase tracking-wider">Categories</h3>
-          <ul className="space-y-3 text-sm text-gray-600">
-            <li><label className="flex items-center space-x-2"><input type="checkbox" className="rounded text-[var(--color-primary)]" /> <span>Abayas</span></label></li>
-            <li><label className="flex items-center space-x-2"><input type="checkbox" className="rounded text-[var(--color-primary)]" /> <span>Dresses</span></label></li>
-            <li><label className="flex items-center space-x-2"><input type="checkbox" className="rounded text-[var(--color-primary)]" /> <span>Shalwar Kameez</span></label></li>
-            <li><label className="flex items-center space-x-2"><input type="checkbox" className="rounded text-[var(--color-primary)]" /> <span>Coord Sets</span></label></li>
-          </ul>
-        </div>
+  const [sortBy, setSortBy] = useState<string>("newest");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
-        {/* Price Range */}
-        <div className="mb-8">
-          <h3 className="font-semibold mb-3 text-sm uppercase tracking-wider">Price Range</h3>
-          <div className="flex items-center space-x-2 text-sm">
-            <input type="number" placeholder="Min" className="w-full border rounded px-2 py-1" />
-            <span>-</span>
-            <input type="number" placeholder="Max" className="w-full border rounded px-2 py-1" />
+  const [filters, setFilters] = useState<Filters>({
+    categories: [],
+    styles: [],
+    sizes: [],
+    colors: [],
+    fabrics: [],
+    minPrice: "",
+    maxPrice: ""
+  });
+
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 400); // 0.4s delay for the premium feel
+    return () => clearTimeout(timer);
+  }, [filters]);
+
+  const baseProducts = PRODUCTS;
+
+  // Filter and Sort Logic
+  const filteredProducts = useMemo(() => {
+    let result = [...baseProducts];
+
+    // Filter by Dynamic Categories
+    if (filters.categories.length > 0) {
+      result = result.filter(p => filters.categories.includes(p.category));
+    }
+
+    // Filter by Styles
+    if (filters.styles.length > 0) {
+      result = result.filter(p => p.style && filters.styles.includes(p.style));
+    }
+
+    // Filter by Colors
+    if (filters.colors.length > 0) {
+      result = result.filter(p => p.color && filters.colors.includes(p.color));
+    }
+
+    // Filter by Fabrics
+    if (filters.fabrics.length > 0) {
+      result = result.filter(p => p.fabric && filters.fabrics.includes(p.fabric));
+    }
+
+    // Filter by Size
+    if (filters.sizes.length > 0) {
+      result = result.filter(p => p.sizes.some(s => filters.sizes.includes(s)));
+    }
+
+    // Filter by Price
+    if (filters.minPrice) {
+      const min = parseFloat(filters.minPrice);
+      if (!isNaN(min)) result = result.filter(p => p.price >= min);
+    }
+    if (filters.maxPrice) {
+      const max = parseFloat(filters.maxPrice);
+      if (!isNaN(max)) result = result.filter(p => p.price <= max);
+    }
+
+    // Filter by Search Query
+    if (searchQuery.trim()) {
+      result = result.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    }
+
+    // Sorting
+    switch (sortBy) {
+      case "price-low":
+        result.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high":
+        result.sort((a, b) => b.price - a.price);
+        break;
+      case "top-rated":
+        result.sort((a, b) => b.rating - a.rating);
+        break;
+      case "newest":
+      default:
+        result.sort((a, b) => (a.isNew === b.isNew ? 0 : a.isNew ? -1 : 1));
+        break;
+    }
+
+    return result;
+  }, [baseProducts, filters, sortBy, searchQuery]);
+
+  return (
+    <div className="mx-auto max-w-7xl px-6 py-10 w-full flex flex-col md:flex-row gap-10 relative">
+      <FilterSidebar 
+        products={baseProducts} 
+        filters={filters} 
+        onFilterChange={setFilters} 
+        isMobileOpen={isMobileFilterOpen}
+        onMobileClose={() => setIsMobileFilterOpen(false)}
+      />
+
+      {/* Product Grid */}
+      <div className="flex-1">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 gap-4">
+          <div>
+            <span className="text-[10px] uppercase tracking-widest text-brand-gold font-bold">Store</span>
+            <h1 className="text-4xl font-serif text-brand-maroon capitalize mt-1">All Products</h1>
+            <p className="text-sm text-brand-text-light mt-2">{filteredProducts.length} Products Found</p>
+          </div>
+          <div className="w-full lg:w-auto flex flex-col sm:flex-row gap-3">
+            <button 
+              onClick={() => setIsMobileFilterOpen(true)}
+              className="md:hidden w-full sm:w-auto px-6 py-2 border border-brand-maroon text-brand-maroon rounded-full text-sm font-bold tracking-widest uppercase hover:bg-brand-maroon hover:text-brand-gold transition-colors flex items-center justify-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+              Filter by
+            </button>
+            <div className="relative w-full sm:w-auto">
+              <input 
+                type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search products..." 
+                className="pl-10 pr-4 py-2 bg-white border border-black/10 rounded-full text-sm w-full sm:w-48 xl:w-64 focus:outline-none focus:border-brand-gold transition-colors"
+              />
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </div>
+            <select 
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="w-full sm:w-auto border border-black/10 rounded-full px-4 py-2 text-sm bg-white focus:outline-none focus:border-brand-gold transition-colors"
+            >
+              <option value="newest">Newest First</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="top-rated">Top Rated</option>
+            </select>
           </div>
         </div>
 
-        {/* Size */}
-        <div className="mb-8">
-          <h3 className="font-semibold mb-3 text-sm uppercase tracking-wider">Size</h3>
-          <div className="flex flex-wrap gap-2">
-            {['XS', 'S', 'M', 'L', 'XL'].map(size => (
-              <button key={size} className="border rounded px-3 py-1 text-xs badge-uppercase hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors">
-                {size}
-              </button>
+        {isLoading ? (
+          <div className="w-full py-32 flex flex-col items-center justify-center">
+            <div className="w-20 h-20 rounded-full border border-brand-gold/30 flex items-center justify-center animate-pulse shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+              <span className="text-5xl font-serif text-brand-gold leading-none relative top-1">H</span>
+            </div>
+            <span className="text-[10px] uppercase tracking-widest text-brand-maroon/60 mt-6 font-bold animate-pulse">Loading Products</span>
+          </div>
+        ) : filteredProducts.length > 0 ? (
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
+            {filteredProducts.map(product => (
+              <ProductCard key={product.id} {...product} />
             ))}
           </div>
-        </div>
-        
-        <button className="w-full bg-[var(--color-primary)] text-[var(--color-secondary)] py-3 rounded font-bold badge-uppercase hover:bg-opacity-90 transition-opacity">
-          Apply Filters
-        </button>
-      </aside>
-
-      {/* Main Content */}
-      <div className="flex-grow">
-        {/* Top Header */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-extrabold text-[var(--color-primary)] logo-tracking">All Products</h1>
-          <select className="border rounded px-3 py-1.5 text-sm bg-white">
-            <option>Sort by: Newest</option>
-            <option>Sort by: Price (Low to High)</option>
-            <option>Sort by: Price (High to Low)</option>
-            <option>Sort by: Best Rated</option>
-          </select>
-        </div>
-
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {DUMMY_PRODUCTS.map(product => (
-            <ProductCard key={product.id} {...product} />
-          ))}
-        </div>
-        
-        {/* Pagination Placeholder */}
-        <div className="mt-12 flex justify-center space-x-3">
-          <button className="px-4 py-2 border rounded bg-[var(--color-primary)] text-white badge-uppercase">1</button>
-          <button className="px-4 py-2 border rounded hover:bg-gray-50">2</button>
-          <button className="px-4 py-2 border rounded hover:bg-gray-50">3</button>
-        </div>
+        ) : (
+          <div className="py-20 text-center border border-dashed border-black/10 rounded-2xl bg-white w-full">
+            <p className="text-brand-text mb-4">No products found matching your filters.</p>
+            <button 
+              onClick={() => { 
+                setFilters({ categories: [], styles: [], sizes: [], colors: [], fabrics: [], minPrice: "", maxPrice: "" }); 
+                setSearchQuery(""); 
+              }} 
+              className="inline-block bg-brand-maroon text-brand-gold px-6 py-3 rounded text-xs font-bold tracking-widest uppercase hover:bg-brand-maroon/90 transition-colors"
+            >
+              Clear Filters
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
